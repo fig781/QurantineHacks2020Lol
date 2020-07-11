@@ -30,6 +30,12 @@ with open('Challenger_Ranked_Games.csv','r') as file:
 
     #run this 10 times per request
     def returnedData(data, value):
+
+      if data["participants"][value]["teamId"] == 100:
+        firstDragon = data["teams"][0]["firstDragon"]
+      else:
+        firstDragon = data["teams"][1]["firstDragon"]
+
       return {"gameId": data["gameId"], 
               "championId": data["participants"][value]["championId"], 
               "teamId": data["participants"][value]["teamId"], 
@@ -38,7 +44,11 @@ with open('Challenger_Ranked_Games.csv','r') as file:
               "kills": data["participants"][value]["stats"]["kills"], 
               "totalHealing": data["participants"][value]["stats"]["totalHeal"], 
               "totalMinionsKilled": data["participants"][value]["stats"]["totalMinionsKilled"], 
-              "win": data["participants"][value]["stats"]["win"]}
+              "win": data["participants"][value]["stats"]["win"],
+              "firstBloodKill": data["participants"][value]["stats"]["firstBloodKill"],
+              "firstDragon": firstDragon,
+              "firstTowerKill": data["participants"][value]["stats"]["firstTowerKill"],
+              "visionScore": data["participants"][value]["stats"]["visionScore"]}
 
     #call function 10 times per request, add each object to the array
     game = []
