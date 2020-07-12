@@ -17,7 +17,7 @@ with open('Challenger_Ranked_Games.csv','r') as file:
     if int(gameDuraton) < 900:
       continue
     # api-endpoint 
-    URL = "https://kr.api.riotgames.com/lol/match/v4/matches/" + gameId + "?api_key=RGAPI-1b4b5a24-db0d-4031-b75a-ce22428d6c9b"
+    URL = "https://kr.api.riotgames.com/lol/match/v4/matches/" + gameId + "?api_key=RGAPI-940383e9-e7bf-4c88-9b36-efcc9179f9ec"
 
     # sending get request and saving the response as response object 
     r = requests.get(url = URL) 
@@ -70,7 +70,8 @@ with open('Challenger_Ranked_Games.csv','r') as file:
       value = returnedData(data,i)
       game.append(value)
     
-    print(game[0]["gameId"])
+    print(game)
+
 
 #send this data to to database 
 
