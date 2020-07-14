@@ -3,21 +3,49 @@ import requests
 import time
 import sys
 from csv import DictReader
+import mysql.connector
+
+try:
+  mydb = mysql.connector.connect(
+    user='dbmasteruser', 
+    password='#(KT.%KXF~?oa0((3C]B+c:D$_u|~%7%',
+    host='ls-ab4099840472652cffcf8a93ff831350de0b9549.cxjoxjn3ihvz.us-west-2.rds.amazonaws.com',
+    database='league',
+    port='3306')
+  mycursor = mydb.cursor()
+
+  #sql query to insert data into db
+  sql = "INSERT INTO champions (game_id, champion_id, team_id, damage_dealt, assists, kills, total_healing, total_minions_killed, win, first_blood_kill, first_dragon, first_tower_kill, vision_score, game_duration) VALUES (%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s, %s,%s, %s)"
+
+  print("Connection to server successful")
+except:
+  print(sys.exc_info()[0], "occurred.")
 
 #for each gameId in the kaggle csv itterate through them
 with open('Challenger_Ranked_Games.csv','r') as file:
   csvDictReader = DictReader(file)
 
-  returned504Times = 0
+  returned504Times = 0 # number of times there has been a 504 status returned
+  startingRow = 0 # = how many rows to skip. if you want to start on the 5th row then skip 4
+  i = 0
 
   for row in csvDictReader:
+
+    # skips the number of rows as startingRow. Change starting row to start processing at a specific row
+    if i < startingRow:
+      i = 1 + i
+      continue
+
     gameId = row['gameId']
     gameDuraton = row['gameDuraton']
 
+    #skips row if duration is less then 15 minutes
     if int(gameDuraton) < 900:
       continue
+
+    apiKey = "RGAPI-24c7d869-5879-4735-80eb-e06e6a3b1e76"
     # api-endpoint 
-    URL = "https://kr.api.riotgames.com/lol/match/v4/matches/" + gameId + "?api_key=RGAPI-940383e9-e7bf-4c88-9b36-efcc9179f9ec"
+    URL = "https://kr.api.riotgames.com/lol/match/v4/matches/" + gameId + "?api_key=" + apiKey
 
     # sending get request and saving the response as response object 
     r = requests.get(url = URL) 
@@ -36,7 +64,7 @@ with open('Challenger_Ranked_Games.csv','r') as file:
   
         continue
       else:
-        print("Error: " + str(r.status_code) + "returned by Riot API")
+        print("Error: " + str(r.status_code) + " returned by Riot API")
         sys.exit(0)
 
     # extracting data in json format 
@@ -44,25 +72,30 @@ with open('Challenger_Ranked_Games.csv','r') as file:
 
     #run this 10 times per request
     def returnedData(data, iterations):
+      try:
+        if data["participants"][iterations]["teamId"] == 100:
+          firstDragon = data["teams"][0]["firstDragon"]
+        else:
+          firstDragon = data["teams"][1]["firstDragon"]
 
-      if data["participants"][iterations]["teamId"] == 100:
-        firstDragon = data["teams"][0]["firstDragon"]
-      else:
-        firstDragon = data["teams"][1]["firstDragon"]
-
-      return {"gameId": data["gameId"], 
-              "championId": data["participants"][iterations]["championId"], 
-              "teamId": data["participants"][iterations]["teamId"], 
-              "damageDealt": data["participants"][iterations]["stats"]["totalDamageDealt"], 
-              "assists": data["participants"][iterations]["stats"]["assists"], 
-              "kills": data["participants"][iterations]["stats"]["kills"], 
-              "totalHealing": data["participants"][iterations]["stats"]["totalHeal"], 
-              "totalMinionsKilled": data["participants"][iterations]["stats"]["totalMinionsKilled"], 
-              "win": data["participants"][iterations]["stats"]["win"],
-              "firstBloodKill": data["participants"][iterations]["stats"]["firstBloodKill"],
-              "firstDragon": firstDragon,
-              "firstTowerKill": data["participants"][iterations]["stats"]["firstTowerKill"],
-              "visionScore": data["participants"][iterations]["stats"]["visionScore"]}
+        #(gameId, championId, teamId, damageDealt, assists, kills)
+        return (data["gameId"], #gameId
+                data["participants"][iterations]["championId"], #championId
+                data["participants"][iterations]["teamId"], #teamId
+                data["participants"][iterations]["stats"]["totalDamageDealt"], #damageDealt
+                data["participants"][iterations]["stats"]["assists"], #assists
+                data["participants"][iterations]["stats"]["kills"], #kills
+                data["participants"][iterations]["stats"]["totalHeal"], #totalHealing
+                data["participants"][iterations]["stats"]["totalMinionsKilled"], #totalMinionsKilled
+                data["participants"][iterations]["stats"]["win"], #win
+                data["participants"][iterations]["stats"]["firstBloodKill"], #firstBloodKill
+                firstDragon, #firstDragon
+                data["participants"][iterations]["stats"]["firstTowerKill"], #firstTowerKill
+                data["participants"][iterations]["stats"]["visionScore"], #visionScore
+                data["gameDuration"]) #gameDuration
+      except:
+        print(sys.exc_info()[0], "occurred in returnedData function.")
+        sys.exit(0)
 
     #call function 10 times per request, add each object to the array
     game = []
@@ -70,12 +103,17 @@ with open('Challenger_Ranked_Games.csv','r') as file:
       value = returnedData(data,i)
       game.append(value)
     
-    print(game)
+    #send data to to database
+    try:
+      mycursor.executemany(sql, game)
+      mydb.commit()
+      print(mycursor.rowcount, " rows were inserted for game id", data["gameId"])
+    except:
+      print(sys.exc_info()[0], "occurred in trying to execute sql update")
 
 
-#send this data to to database 
+ 
 
 
 #TeamId 100 = Blue side participents 1 through 5
 #TeamId 200 = Red side participents 6 through 10
-# need per champion, 10 of thse per request: champion id, side they were on, damage dealt, assists, kills, total healing, starting side, cs
