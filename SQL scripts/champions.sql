@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS champions (
     champion_id smallint,
     team_id tinyint,
     damage_dealt mediumint,
-    assists TINYINT,
+    assists tinyint,
     kills tinyint,
     total_healing mediumint,
     total_minions_killed smallint,

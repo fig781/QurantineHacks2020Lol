@@ -26,9 +26,10 @@ with open('Challenger_Ranked_Games.csv','r') as file:
   csvDictReader = DictReader(file)
 
   returned504Times = 0 # number of times there has been a 504 status returned
-  startingRow = 0 # = how many rows to skip. if you want to start on the 5th row then skip 3, which ever row you want to start on enter thnumber minus 2
+  startingRow = 20981 # = how many rows to skip. if you want to start on the 5th row then skip 3, which ever row you want to start on enter thnumber minus 2
   i = 0
 
+  # reminder last one added 4224690113
   for row in csvDictReader:
 
     # skips the number of rows as startingRow. Change starting row to start processing at a specific row
