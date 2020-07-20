@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css" />
+    <title>theDiff.lol</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+  </head>
+  <body>
+    <div id="main-container"class="container ">
+      <header class="text-center pt-3 text-white">
+        <h1 >theDiff.lol</h1>
+        <h3>Understand Your Champion</h3>
+      </header>
+
+      <main class="">
+        <form autocomplete="off" action=""  class=" text-center form-inline justify-content-center my-3">
+          <div class="auto-complete">
+            <input type="search" placeholder="Champion" class="form-control" id="championNameInput">
+          </div>
+          <button type="submit" class="btn btn-primary ml-2">Submit</button>
+        </form>
+
+        <div id="champion-main-image-jumbo"class="jumbotron d-flex align-items-start flex-column">
+          <h1 id="champion-name-jumbo"class=" text-light rounded mt-auto pb-2 pr-2 pl-2 display-4">Qiyana</h1>
+        </div>
+
+        <div id="patch-region" class=" text-center mb-2">
+          <div class="row row-cols-3">
+            <h5 class="col">Challenger KR</h5>
+            <h3 class="col text-white">Champion Averages</h3>
+            <h5 class="col">10.14</h5>
+          </div>
+        </div>
+
+        <div class="row d-flex justify-content-center">
+          <div class=" custom-info-pannels col-md-2 text-center m-2 rounded  p-1">
+            <h5>55.55%</h5>
+            <h5>Winrate</h5>
+          </div>
+
+          <div class=" custom-info-pannels col-md-3  text-center m-2 rounded  p-1">
+            <h5>Kills: 6.5</h5>
+            <h5>Assists: 6.5</h5>
+          </div>
+
+          <div class=" custom-info-pannels col-md-4  text-center m-2 rounded p-1">
+            <h5>Damage Dealt: 65,000</h5>
+            <h5>Healing Done: 5,000</h5>
+          </div>
+        </div>
+
+        <div class="row d-flex justify-content-center">
+          <div class=" custom-info-pannels col-md-2 text-center m-2 rounded p-1">
+            <h5>20.5</h5>
+            <h5>Vision Score</h5>
+          </div>
+
+          <div class=" custom-info-pannels col-md-2 text-center m-2 rounded  p-1">
+            <h5>203</h5>
+            <h5>CS</h5>
+          </div>
+
+          <div class=" custom-info-pannels col-md-3 text-center m-2 rounded  p-1">
+            <h5> 16:00</h5>
+            <h5>Game Length</h5>
+          </div>
+        </div>
+
+        <div class="row  d-flex justify-content-center">
+          <div class=" custom-info-pannels col-md-3 text-center m-2 rounded  p-1">
+            <div class="border-bottom border-secondary">
+              <h5>1.2%</h5>
+              <h5>First Blood %</h5>
+            </div>
+            <div>
+              <canvas id="winAfterFirstBloodChart"></canvas>
+              <h5>Win % After First Blood</h5>
+            </div>
+
+          </div>
+
+          <div class=" custom-info-pannels col-md-3 text-center m-2 rounded   p-1">
+            <div class="border-bottom border-secondary">
+              <h5> 55.23%</h5>
+              <h5>Team First Dragon %</h5>
+            </div>
+            <div>
+              <canvas id="winAfterFirstDragonChart"></canvas>
+              <h5>Win % After First Dragon</h5>
+            </div>
+          </div>
+
+          <div class=" custom-info-pannels col-md-3 text-center m-2 rounded  p-1">
+            <div class="border-bottom border-secondary">
+              <h5>3.2%</h5>
+              <h5>First Tower %</h5>
+            </div>
+            <div>
+              <canvas id="winAfterFirstTowerChart"></canvas>
+              <h5>Win % After First Tower</h5>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="text-center mt-3 pt-4 pb-4 border-top border-secondary">
+        <h6>Created by Aden Eilers, Michael Gilroy and Zackary Wyman</h6>
+      </footer>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="chartRender.js"></script>
+    <script type="text/javascript" src="formAutoComplete.js"></script>
+  </body>
+</html>

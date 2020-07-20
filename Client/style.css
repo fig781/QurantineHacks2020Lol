@@ -1,0 +1,64 @@
+body{
+  background-color: #222222;
+  color: #dddfe2;
+}
+
+
+.container{
+  background-color: #2d3848;
+}
+
+.auto-complete{
+  width: auto;
+  position: relative;
+  display: inline-block;
+  color:#fff;
+  text-align: start;
+}
+.autocomplete-items {
+  position: absolute;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: hsl(217, 18%, 25%) ;
+  
+}
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #818181;
+}
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
+#champion-main-image-jumbo{
+  background-image: url(/Client/Assets/Qiyana_0.jpg);
+  background-size: cover;
+  height: 400px;
+  margin-bottom:0px;
+  border-radius: .25rem .25rem 0rem 0rem;
+}
+
+#champion-name-jumbo{
+  margin-bottom:0px;
+  background-color:#2d3848;
+}
+
+#patch-region{
+  border-radius:  0rem 0rem .25rem .25rem;
+  background-color: #3a4556;
+}
+
+.custom-info-pannels{
+  padding:0px;
+  background-color: #3a4556;
+}
